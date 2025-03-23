@@ -70,3 +70,15 @@ Username: user
 Password: pass
 ```
 #### Backend API: The backend API should be accessible at http://localhost:8080. Documentation provided in http://localhost:8080/swagger
+
+
+# TODOS:
+## Backend: 
+- Exception middleware to catch unhandled exceptions and return user friendly message as the response
+- Documentation for ProductHub SignalR methods
+- Unit tests for Service layer
+
+## Frontend: 
+- Dockerize 
+- Improve UX regards HealthStatus responses aka. ```if HealthStatus.Success === false``` flows
+- Modals instead of alerts for all notifications shown in the UI
