@@ -1,6 +1,6 @@
 # Stack
 -  Database: PostgreSQL
--  Backend: .NET 9 WebAPI, REST API & SignalR. Documentation with Swagger
+-  Backend: .NET 9 WebAPI, REST API & SignalR. Documentation with Swagger. Authorization with JWT.
 -  Frontend: AngularTS 19.2.3, Node: 22.14.0
 
 ## Prerequisites
@@ -25,7 +25,7 @@ Follow the steps below to set up the project on your local machine.
 Clone the repository to your local machine:
 
 ```bash
-git clone <repo_url>
+git clone https://github.com/kristeninho/CharityShop.git
 cd CharityShop
 ```
 
