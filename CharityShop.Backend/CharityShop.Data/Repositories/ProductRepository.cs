@@ -11,7 +11,7 @@ public interface IProductRepository
     /// Get single <see cref="Product"/> with Tracking
     /// </summary>
     /// <param name="productId">Id of <see cref="Product"/> to be fetched</param>
-    Task<Product> GetProductByIdAsync(int productId);
+    Task<Product> GetProductById(int productId);
     /// <summary>
     /// Get <see cref="IQueryable"/> of all <see cref="Product"/>-s with AsNoTracking().
     /// If Tracking is required, then override it using AsTracking()
@@ -20,22 +20,24 @@ public interface IProductRepository
     /// <summary>
     /// Commit all the changes (inserts, updates, and deletes) made to the database within the current context as a single transaction
     /// </summary>
-    Task SaveChangesAsync();
+    Task SaveChanges();
 }
 
+/// <inheritdoc/>
 public class ProductRepository(ProductDbContext dbContext) : IProductRepository
 {
-    public Task<Product> GetProductByIdAsync(int productId)
+    /// <inheritdoc/>
+    public Task<Product> GetProductById(int productId)
     {
         return dbContext.Products.FirstOrDefaultAsync(product => product.Id == productId);
     }
-    
+    /// <inheritdoc/>
     public IQueryable<Product> GetAllProductsAsQueryable()
     {
         return dbContext.Products.AsNoTracking();
     }
-
-    public Task SaveChangesAsync()
+    /// <inheritdoc/>
+    public Task SaveChanges()
     {
         return dbContext.SaveChangesAsync();
     }

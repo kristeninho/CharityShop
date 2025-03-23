@@ -10,30 +10,30 @@ namespace CharityShop.Services;
 /// <summary>
 /// Service for <see cref="Product"/> related logic
 /// </summary>
-public interface IProductService //TODO: update xml docs regards ProductResult
+public interface IProductService
 {
     /// <summary>
     /// Get all existing <see cref="Product"/>-s with their stock information
     /// </summary>
-    /// <returns>List of <see cref="ProductResponseDto"/>-s of all <see cref="Product"/>-s and their stocks</returns>
+    /// <returns><see cref="MultipleProductsResult"/> with <see cref="HealthStatus"/> and List of <see cref="ProductResponseDto"/>-s of all <see cref="Product"/>-s and their stocks</returns>
     Task<MultipleProductsResult> GetAllProductsAsync();
     /// <summary>
     /// Release stock of given <see cref="Product"/>-s and return their updated stocks
     /// </summary>
     /// <param name="productsRequestDtos">List of <see cref="ProductRequestDto"/>-s with <see cref="Product"/> info for which stock is to be released</param>
-    /// <returns>List of <see cref="ProductResponseDto"/>-s of updated <see cref="Product"/>-s with their up-to-date stocks</returns>
+    /// <returns><see cref="MultipleProductsResult"/> with <see cref="HealthStatus"/> and List of <see cref="ProductResponseDto"/>-s of updated <see cref="Product"/>-s with their up-to-date stocks</returns>
     Task<MultipleProductsResult> ReleaseProductsAsync(List<ProductRequestDto> productsRequestDtos);
     /// <summary>
     /// Book single <see cref="Product"/> and return its updated stock
     /// </summary>
     /// <param name="productId">Id of <see cref="Product"/> to be booked</param>
-    /// <returns><see cref="ProductResponseDto"/> of updated <see cref="Product"/> stock</returns>
+    /// <returns><see cref="SingleProductResult"/> with <see cref="HealthStatus"/> and <see cref="ProductResponseDto"/> of updated <see cref="Product"/> stock</returns>
     Task<SingleProductResult> BookProductAsync(int productId);
     /// <summary>
     /// Finalize the stock of <see cref="Product"/>-s and return their updated stocks. This means turn BookedQuantity into TotalQuantity.
     /// </summary>
     /// <param name="productsRequestDtos">List of <see cref="ProductRequestDto"/>-s with <see cref="Product"/> info for which stock is to be finalized</param>
-    /// <returns>List of <see cref="ProductResponseDto"/>-s of updated <see cref="Product"/>-s with their up-to-date stocks</returns>
+    /// <returns><see cref="MultipleProductsResult"/> with <see cref="HealthStatus"/> and List of <see cref="ProductResponseDto"/>-s of updated <see cref="Product"/>-s with their up-to-date stocks</returns>
     Task<MultipleProductsResult> FinalizeProductsAsync(List<ProductRequestDto> productsRequestDtos);
     /// <summary>
     /// Initialize the stock of <see cref="Product"/>-s of type <see cref="Common.Product.ProductType.Items"/>
@@ -59,7 +59,6 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
     /// <inheritdoc/>
     public async Task<MultipleProductsResult> ReleaseProductsAsync(List<ProductRequestDto> productsRequestDtos)
     {
-        // TODO: exception middleware ?
         ValidateProductRequestDtos(productsRequestDtos);
         
         var retryCount = 0;
@@ -77,7 +76,7 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
                     product.BookedQuantity -= dto.Quantity;
                 }
 
-                await productRepository.SaveChangesAsync();
+                await productRepository.SaveChanges();
 
                 var productResponseDtos = mapper.Map<List<ProductResponseDto>>(products);
 
@@ -107,7 +106,7 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         var retryCount = 0;
         while (true)
         {
-            var product = await productRepository.GetProductByIdAsync(productId);
+            var product = await productRepository.GetProductById(productId);
             if (product == null) throw new Exception("Product not found");
             
             try
@@ -117,7 +116,7 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
 
                 product.BookedQuantity++;
                 
-                await productRepository.SaveChangesAsync();
+                await productRepository.SaveChanges();
 
                 var productResponseDto = mapper.Map<ProductResponseDto>(product);
 
@@ -163,7 +162,7 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
                     product.TotalQuantity -= dto.Quantity;
                 }
 
-                await productRepository.SaveChangesAsync();
+                await productRepository.SaveChanges();
 
                 var productResponseDtos = mapper.Map<List<ProductResponseDto>>(products);
         
@@ -203,7 +202,7 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
             product.TotalQuantity = productsRequestDtos.First(p => p.Id == product.Id).Quantity;
         }
 
-        await productRepository.SaveChangesAsync();
+        await productRepository.SaveChanges();
     }
 
     /// <summary>
