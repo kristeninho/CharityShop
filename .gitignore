@@ -482,3 +482,46 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Angular
+/dist/
+/out-tsc/
+/.angular/
+
+# TypeScript
+*.tsbuildinfo
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Coverage
+coverage/
+
+# Production
+.env.production
+
+# Build output
+/build/
+
+# Angular CLI configuration
+.angular-cli.json
+angular.json
+tsconfig.json
+tsconfig.app.json
+tsconfig.spec.json
+
