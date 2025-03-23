@@ -1,0 +1,31 @@
+<div class="shop-container">
+  <h1>Shop</h1>
+  <div class="product-grid">
+    <div *ngFor="let product of products" class="product-card" (click)="addToBasket(product)">
+      <div class="product-image">
+        <img 
+          [src]="'assets/' + product.name + '.png'" 
+          [alt]="product.name" 
+          [class.out-of-stock]="product.availableQuantity === 0"
+        />
+        <div *ngIf="product.availableQuantity === 0" class="out-of-stock-overlay">
+          Out of Stock
+        </div>
+      </div>
+      <div class="product-details">
+        <h2>{{ product.name }} {{ product.price | number:'1.2-2'}}{{currency}}</h2>
+        <h3>Stock left: {{ product.availableQuantity }}</h3>
+        <h3>In basket: {{ getItemSelectedQuantity(product.id) }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Footer -->
+  <div class="footer">
+    <div class="footer-content">
+      <p>Total Payment: {{currency}}{{totalPayment | number:'1.2-2'}}</p>
+      <button [disabled]="basketIsEmpty" (click)="resetBasket()" class="footer-button">RESET</button>
+      <button [disabled]="basketIsEmpty" (click)="checkout()" class="footer-button">CHECKOUT</button>
+    </div>
+  </div>
+</div>

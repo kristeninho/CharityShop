@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Checkout</h2>
+<mat-dialog-content>
+
+  <table>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+    <tr *ngFor="let product of data.checkoutProducts">
+      <td>{{ product.name }}</td>
+      <td>{{ product.quantity }}</td>
+      <td>{{ product.price  | number:'1.2-2' }}€</td>
+    </tr>
+  </table> 
+
+  <h3>Total Price: {{ data.totalPayment | number:'1.2-2' }}€</h3>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Amount Paid</mat-label>
+    <input matInput type="number" [(ngModel)]="amountPaid" (input)="calculateChange()" />
+  </mat-form-field>
+  <p *ngIf="change >= 0">Change to Return: {{ change | number:'1.2-2' }}€</p>
+  <p *ngIf="change < 0" class="error">Insufficient payment. Please pay at least {{ data.totalPayment | number:'1.2-2' }}€</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [disabled]="change < 0" (click)="onConfirm()">Confirm</button>
+</mat-dialog-actions>

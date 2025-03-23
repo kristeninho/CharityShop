@@ -1,0 +1,38 @@
+.navigation-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.navigation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between buttons */
+  width: 100%;
+  max-width: 400px; /* Limit width for larger screens */
+  text-align: center;
+
+  button {
+    width: 100%;
+    padding: 20px;
+    font-size: 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: #0056b3;
+      transform: scale(1.05); /* Slight zoom effect on hover */
+    }
+
+    &:active {
+      transform: scale(1); /* Reset scale on click */
+    }
+  }
+}

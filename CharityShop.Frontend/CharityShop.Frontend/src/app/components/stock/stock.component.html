@@ -1,0 +1,28 @@
+<div class="stock-container">
+  <h1>Stock Management</h1>
+  <div class="product-grid">
+    <div *ngFor="let product of products" class="product-card">
+      <div class="product-image">
+        <img [src]="'assets/' + product.name + '.png'" alt="{{ product.name }}" />
+      </div>
+      <div class="product-details">
+        <h2>{{ product.name }}</h2>
+        <h3>Quantity: {{ product.totalQuantity }}</h3>
+        <div *ngIf="product.type === 'Items'">
+          <label for="quantity-{{ product.id }}">Set quantity</label>
+          <input
+            type="number"
+            id="quantity-{{ product.id }}"
+            [(ngModel)]="product.quantityToAdd"
+            name="quantity-{{ product.id }}"
+            min="0"
+          />
+        </div>
+        <div *ngIf="product.type !== 'Items'">
+          Quantity already set
+        </div>
+      </div>
+    </div>
+  </div>
+  <button (click)="initializeStock()">Initialize Stock</button>
+</div>
